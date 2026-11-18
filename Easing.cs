@@ -22,14 +22,23 @@ public static class Easing
     public static float EaseOut(float t)
     {
         // TODO 6.2 (a): 1 - (1 - t)²   (EaseIn "întoarsă")
-        return t;   // provizoriu
+        float u = 1f - t;
+        return 1f - u * u;
+   // provizoriu
     }
 
     /// <summary>Pornește încet, accelerează, apoi frânează la sosire.</summary>
     public static float EaseInOut(float t)
     {
-        // TODO 6.2 (a): t² · (3 - 2t)
-        return t;   // provizoriu
+        // TODO 6.2 (a): t² · (3 - 2t) este formula pentru curba smoothstep numata EaseInOut aici care transforma o pregresie liniara intr o miscare de forma S
+        return t* t * (3f - 2f * t);   // provizoriu
+        //t - parametrul de intrare 
+        //la 0 este la pozitia de start,
+        //la 0.25 obiectul a parcurs 15,6 la suta din idstanta deci pleaca lent,
+        ////la 0.5 atinge viteza maxima la jumatatea drumului
+        //la 0.75  mai are 15, 6 % din drim deci franeaza usor
+        //la final t = 1.0 se opreste usor fara miscari burste ajungand la destinatie
+        //aceasta linie de cod face ca un obiect sa nu se miste mecanic (porneste opreste instantaneu) ci sa aiba inertie (accelereaza treptat)
     }
 
     /// <summary>Toate funcțiile, cu nume (pentru scena laboratorului și pentru meniuri).</summary>
