@@ -51,7 +51,11 @@ public sealed class Tween
         get
         {
             // TODO 6.2 (b): Vector3.Lerp(From, To, ...), cu Ease aplicat pe Progress
-            return From;   // provizoriu: obiectul stă pe loc
+
+            float easeProgress = Ease(Progress);
+            //Progress este o proprietate care calculeaza cat la suta din timp a trecut
+            return Vector3.Lerp(From, To, easeProgress);
+            // provizoriu: obiectul stă pe loc
         }
     }
 
