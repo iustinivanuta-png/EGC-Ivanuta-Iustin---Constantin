@@ -1,3 +1,5 @@
+//e-mail: iustin.ivanuta@student.usv.ro
+
 using Egc;
 
 // Program.cs conține DOAR inițializarea aplicației:
