@@ -47,6 +47,21 @@ public sealed class KeyframeTrack
         //   1. position = time / SecondsPerKey, adus în [0, Count) cu %   (de exemplu 1.5)
         //   2. i = partea întreagă (cheia de plecare), u = partea fracționară (cât din drum)
         //   3. Lerp între cheia i și cheia următoare ((i + 1) % Count), cu Ease aplicat pe u
-        return _keys[0];   // provizoriu: valoarea primei chei
+        float position =(time / SecondsPerKey) % _keys.Count;
+        //imparte timpul total sa durata unui segment ca afle la a cata statie a ajuns trenul ( de ex 1.5 inseamna a trecut de statia 1 si e la jumatatea drumului spre statia 2);
+        //keys.count (modulo) face ca traseul sa reia de la 0 cand se termina toate statiile (circuit inchis)
+        if (position < 0f) position += _keys.Count;
+
+        int i = (int)position;
+        // int i numarul statiei de unde a plecat trenul
+        float u = position - i;
+        //ia doar partea fractionara si este procentul de la 0 la 1 caqre arata cit din frumul dintre cele doua statiia parcus.
+        int next = (i + 1) % _keys.Count;
+        //afla numarul urmatoarei statii si jla ultima statie urmatoarea va fi prima din nou cu %_keys.Count
+
+
+        return Vector3.Lerp(_keys[i], Keys[next], Ease(u));
+
+
     }
 }
