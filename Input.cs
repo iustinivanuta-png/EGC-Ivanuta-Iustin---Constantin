@@ -72,8 +72,10 @@ public sealed class Input
     /// <summary>ELIBERATĂ ACUM: o tastă a acțiunii era apăsată în cadrul anterior și e liberă în acesta.</summary>
     public bool WasReleased(string action)
     {
+        return AnyKey(action, k => _keyboard!.IsKeyReleased(k)) || AnyButton(action, b => _mouse!.IsButtonReleased(b));
         // TODO 6.4 (a): după modelul lui WasPressed, cu IsKeyReleased și IsButtonReleased.
-        return false;   // provizoriu
+        //return false;   // provizoriu
+        //WasReleased verifica exact cand ai ridica degetul de pe tasta
     }
 
     /// <summary>
@@ -81,9 +83,11 @@ public sealed class Input
     /// +1 (doar <paramref name="positive"/> ținută), 0 (niciuna sau amândouă).
     /// </summary>
     public float Axis(string negative, string positive)
-    {
+    {    //WasReleased 
         // TODO 6.4 (b): (positive ținută ? 1 : 0) - (negative ținută ? 1 : 0)
-        return 0.0f;   // provizoriu
+        return (IsDown(positive) ? 1f : 0f) - (IsDown(negative) ? 1f : 0f);
+        //axis transforma doua taste opuse intr un singur numar intre -1 si 1
+       // return 0.0f;   // provizoriu
     }
 
     // --- Mouse ----------------------------------------------------------------------------
