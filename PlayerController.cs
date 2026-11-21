@@ -67,8 +67,25 @@ public sealed class PlayerController
         //   (c) la ELIBERARE (dacă _charging): _verticalSpeed = Lerp(MinJumpSpeed, MaxJumpSpeed, _charge),
         //       apoi _charging = false și _charge = 0.
 
+        if (OnGround && input.WasPressed(Actions.Jump))
+        {//daca cubul atinge podeauau (OnGround) si tocmai ai apasat tasta de salt, activeaza modul de incarcare (_charging = true) si porneste contorul de la 0
+            _charging = true;
+            _charge = 0.0f;
+        }
 
 
+        if (_charging && input.IsDown(Actions.Jump))
+        {
+            _charge = MathF.Min(1.0f, _charge + dt / ChargeTime);
+
+        }
+
+        if (_charging && input.WasReleased(Actions.Jump))
+        {//daca ridici degetul de pe tastatura se calculeaza viteza de saritura intre minim si maxim in functie de cat sa incarcat (Lerp) apoi opreste incarcarea si reseteaza contorul a 0
+            _verticalSpeed = MathHelper.Lerp(MinJumpSpeed, MaxJumpSpeed, _charge);
+            _charging = false;
+            _charge = 0.0f;
+        }
         // 3. Gravitația (metoda Euler semi-implicită): întâi viteza, apoi poziția.
         if (!OnGround || _verticalSpeed > 0.0f)
         {
